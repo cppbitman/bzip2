@@ -1,0 +1,55 @@
+
+image: Visual Studio 2017
+environment:
+    matrix:
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Release
+          ARCH_: x86
+          CMAKE_GENERATOR_: "Visual Studio 15 2017"
+
+        - CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Debug
+          CONAN_ARCHS: x86
+          CMAKE_GENERATOR_: "Visual Studio 15 2017"
+
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Release
+          ARCH_: x86_64
+          CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Debug
+          ARCH_: x86_64
+          CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+# shared lib
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Release
+          ARCH_: x86
+          CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          SHARED_LIB_: -DBUILD_SHARED_LIBS=ON
+
+        - CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Debug
+          CONAN_ARCHS: x86
+          CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          SHARED_LIB_: -DBUILD_SHARED_LIBS=ON
+
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Release
+          ARCH_: x86_64
+          CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          SHARED_LIB_: -DBUILD_SHARED_LIBS=ON
+
+        - CONAN_VISUAL_VERSIONS: 15
+          BUILD_TYPE_: Debug
+          ARCH_: x86_64
+          CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          SHARED_LIB_: -DBUILD_SHARED_LIBS=ON
+
+
+build_script:
+  - cmake -G "%CMAKE_GENERATOR_%" -DBUILD_TYPE=%BUILD_TYPE_% %SHARED_LIB_% .
+  - cmake --build .
+
+test_script:
+  - cmake --build . --target RUN_TESTS
