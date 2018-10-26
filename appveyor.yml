@@ -1,4 +1,5 @@
 
+build: false
 image: Visual Studio 2017
 environment:
     matrix:
@@ -47,9 +48,7 @@ environment:
           SHARED_LIB_: -DBUILD_SHARED_LIBS=ON
 
 
-build_script:
+test_script:
   - cmake -G "%CMAKE_GENERATOR_%" -DBUILD_TYPE=%BUILD_TYPE_% %SHARED_LIB_% .
   - cmake --build .
-
-test_script:
   - cmake --build . --target RUN_TESTS
