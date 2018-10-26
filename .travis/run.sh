@@ -3,9 +3,9 @@
 set -e
 set -x
 
-if [[ "$(uname -s)" == 'Darwin' ]]; then
-
-fi
+#if [[ "$(uname -s)" == 'Darwin' ]]; then
+#
+#fi
 rootd=$PWD
 for config in Debug Release
 do
