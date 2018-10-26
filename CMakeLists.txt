@@ -13,7 +13,7 @@ if(MSVC)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif(MSVC)
 
-set (CMAKE_DEBUG_POSTFIX d)
+set (CMAKE_DEBUG_POSTFIX )
 
 set(_SOURCES blocksort.c bzlib.c compress.c 
              crctable.c decompress.c huffman.c randtable.c)
@@ -21,24 +21,24 @@ set(_SOURCES blocksort.c bzlib.c compress.c
 set(_HEADERS bzlib.h bzlib_private.h)	
 
 if (BUILD_SHARED_LIBS)
-  add_library(libz2 SHARED ${_SOURCES})
+  add_library(libbz2 SHARED ${_SOURCES})
   if (MSVC)
-    target_sources (libz2 PRIVATE libbz2.def)
+    target_sources (libbz2 PRIVATE libbz2.def)
   endif()
 else()
-  add_library(libz2 STATIC ${_SOURCES})  
+  add_library(libbz2 STATIC ${_SOURCES})  
 endif()
 
 
 
 add_executable (bzip2 bzip2.c )
 
-target_link_libraries (bzip2 PRIVATE libz2)
+target_link_libraries (bzip2 PRIVATE libbz2)
 
 add_executable (bzip2recover bzip2recover.c )
-target_link_libraries (bzip2recover libz2)
+target_link_libraries (bzip2recover libbz2)
 
-install (TARGETS libz2 bzip2 bzip2recover
+install (TARGETS libbz2 bzip2 bzip2recover
          RUNTIME DESTINATION bin
          LIBRARY DESTINATION lib
          ARCHIVE DESTINATION lib)
