@@ -52,3 +52,4 @@ matrix:
 
 script:
   - chmod +x ./.travis/run.sh && ./.travis/run.sh
+
