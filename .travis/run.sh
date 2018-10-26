@@ -4,10 +4,20 @@ set -e
 set -x
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
-    if which pyenv > /dev/null; then
-        eval "$(pyenv init -)"
-    fi
-    pyenv activate conan
-fi
 
-python build.py
+fi
+rootd=$PWD
+for config in Debug Release
+do
+   for shared_lib in OFF ON
+   do
+      echo Build bzip2 ${config}-shared-${shared_lib}
+      cd ${rootd}
+      buildir=${config}-shared-${shared_lib}
+      cd ${buildir}
+      cmake -G"Unix Makefiles" ..
+      make
+      make test
+   done
+done
+
