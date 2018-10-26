@@ -14,6 +14,7 @@ do
       echo Build bzip2 ${config}-shared-${shared_lib}
       cd ${rootd}
       buildir=${config}-shared-${shared_lib}
+      mkdir ${buildir}
       cd ${buildir}
       cmake -G"Unix Makefiles" ..
       make
