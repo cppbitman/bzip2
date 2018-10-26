@@ -1,0 +1,42 @@
+
+version: 1.0.6-{build}
+build: false
+image: Visual Studio 2017
+environment:
+    matrix:
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          _SHARED_LIB_: OFF
+          _CONFIG_: Debug
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          _SHARED_LIB_: OFF
+          _CONFIG_: Release
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          _SHARED_LIB_: OFF
+          _CONFIG_: Debug
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          _SHARED_LIB_: OFF
+          _CONFIG_: Release
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          _SHARED_LIB_: ON
+          _CONFIG_: Debug
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017"
+          _SHARED_LIB_: ON
+          _CONFIG_: Release
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          _SHARED_LIB_: ON
+          _CONFIG_: Debug
+
+        - _CMAKE_GENERATOR_: "Visual Studio 15 2017 Win64"
+          _SHARED_LIB_: ON
+          _CONFIG_: Release
+
+test_script:
+  - cmake -G "%_CMAKE_GENERATOR_%" -DDCMAKE_BUILD_TYPE=%_CONFIG_% -DBUILD_SHARED_LIBS=%_SHARED_LIB_% .
+  - cmake --build .
+  - cmake --build . --target RUN_TESTS
