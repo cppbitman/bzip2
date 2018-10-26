@@ -11,6 +11,7 @@ if(MSVC)
     add_definitions(-D_FILE_OFFSET_BITS=64)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)    
 endif(MSVC)
 
 set (CMAKE_DEBUG_POSTFIX )
@@ -24,12 +25,14 @@ if (BUILD_SHARED_LIBS)
   add_library(libbz2 SHARED ${_SOURCES})
   if (MSVC)
     target_sources (libbz2 PRIVATE libbz2.def)
-    set_target_properties(libbz2 PROPERTIES OUTPUT_NAME bz2)
   endif()
 else()
   add_library(libbz2 STATIC ${_SOURCES})  
 endif()
 
+if(MSVC)
+   set_target_properties(libbz2 PROPERTIES OUTPUT_NAME bz2)
+endif()
 
 
 add_executable (bzip2 bzip2.c )
