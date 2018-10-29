@@ -50,7 +50,11 @@ install (TARGETS libbz2 bzip2 bzip2recover
 install(FILES ${_HEADERS} DESTINATION include)
 
 enable_testing()
-
+message("2) TEST_PROBE_DIRS:${TEST_PROBE_DIRS}")
+if(NOT TEST_PROBE_DIRS)
+   set(TEST_PROBE_DIRS . ./Release ./Debug)
+endif()
+message("3) TEST_PROBE_DIRS:${TEST_PROBE_DIRS}")
 add_test(NAME compress_block_size_1
     COMMAND ${CMAKE_COMMAND}
     -DTEST_PROG=bzip2
@@ -59,6 +63,7 @@ add_test(NAME compress_block_size_1
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample1.bz2
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample1.rb2
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )
 
@@ -70,6 +75,7 @@ add_test(NAME compress_block_size_2
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample2.bz2
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample2.rb2
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )
 
@@ -81,6 +87,7 @@ add_test(NAME compress_block_size_3
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample3.bz2
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample3.rb2
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )
 
@@ -92,6 +99,7 @@ add_test(NAME decompress_block_size_1
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample1.ref
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample1.tst
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )
 
@@ -103,6 +111,7 @@ add_test(NAME decompress_block_size_2
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample2.ref
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample2.tst
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )
 
@@ -114,5 +123,6 @@ add_test(NAME decompress_block_size_3
     -DEXPECTED=${CMAKE_SOURCE_DIR}/sample3.ref
     -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/sample3.tst
     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DPROBEDIRS=${TEST_PROBE_DIRS}
     -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/runtest.cmake
     )

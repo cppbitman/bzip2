@@ -5,7 +5,7 @@ if(MSVC)
 endif()
 
 set(EXEC "")
-foreach(d . ./Release ./Debug )
+foreach(d  ${PROBEDIRS})
    file(GLOB _execs ${d} ${_TEST_PROGS})
    set(EXEC "${_execs} ${EXEC}")
    list(LENGTH _execs _size)
@@ -25,15 +25,19 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E compare_files ${OUTPUT} ${EXPECTED}
 )
 
 file(WRITE test.log "
+PROBEDIRS:${PROBEDIRS}
+EXEC:${EXEC}
 execute_process (COMMAND ${EXEC} ${ARGUMENTS}
   INPUT_FILE ${INPUT}
   OUTPUT_FILE ${OUTPUT}
 )
-=====================
+
 execute_process(COMMAND ${CMAKE_COMMAND} -E compare_files 
                 ${OUTPUT} 
                 ${EXPECTED} 
                 RESULT_VARIABLE _RESULT)
+				
+_RESULT:${_RESULT}
 ")
 #
 if(NOT _RESULT EQUAL 0)
