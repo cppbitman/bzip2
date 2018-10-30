@@ -14,6 +14,12 @@ if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)    
 endif(MSVC)
 
+if(MSVC)
+    set (_LIB_NAME libbz2)
+else()
+    set (_LIB_NAME bz2)
+endif()
+
 set (CMAKE_DEBUG_POSTFIX )
 
 set(_SOURCES blocksort.c bzlib.c compress.c 
@@ -22,27 +28,27 @@ set(_SOURCES blocksort.c bzlib.c compress.c
 set(_HEADERS bzlib.h bzlib_private.h)	
 
 if (BUILD_SHARED_LIBS)
-  add_library(libbz2 SHARED ${_SOURCES})
+  add_library(${_LIB_NAME} SHARED ${_SOURCES})
   if (MSVC)
-    target_sources (libbz2 PRIVATE libbz2.def)
+    target_sources (${_LIB_NAME} PRIVATE libbz2.def)
   endif()
 else()
-  add_library(libbz2 STATIC ${_SOURCES})  
+  add_library(${_LIB_NAME} STATIC ${_SOURCES})  
 endif()
 
 if(MSVC)
-   set_target_properties(libbz2 PROPERTIES OUTPUT_NAME bz2)
+   set_target_properties(${_LIB_NAME} PROPERTIES OUTPUT_NAME bz2)
 endif()
 
 
 add_executable (bzip2 bzip2.c )
 
-target_link_libraries (bzip2 PRIVATE libbz2)
+target_link_libraries (bzip2 PRIVATE ${_LIB_NAME})
 
 add_executable (bzip2recover bzip2recover.c )
-target_link_libraries (bzip2recover libbz2)
+target_link_libraries (bzip2recover ${_LIB_NAME})
 
-install (TARGETS libbz2 bzip2 bzip2recover
+install (TARGETS ${_LIB_NAME} bzip2 bzip2recover
          RUNTIME DESTINATION bin
          LIBRARY DESTINATION lib
          ARCHIVE DESTINATION lib)
